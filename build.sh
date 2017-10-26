@@ -43,6 +43,12 @@ sed -i 's;WorkingDirectory=%PAL:DataDir%\\home;WorkingDirectory=%PAL:Drive%\\Doc
 sed -i 's;HOME=%PAL:DataDir%\\home;HOME=%PAL:Drive%\\Documents\nCOMPOSER_HOME=%PAL:Drive%\\xampp\\globalcomposer;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 
 
+# PATH and bash aliases
+git clone https://github.com/jgonyea/portableDevEnvironment.git $WTEMP/pde
+cat $WTEMP/pde/bash_profile >> /$WDL/Documents/.bash_profile
+mv $WTEMP/pde/startDev.sh /$WDL/Documents/Projects
+
+
 # XAMPP Launcher Portable
 echo "XAMPP"
 cd $WTEMP/
@@ -109,19 +115,12 @@ curl -L -o "$WTEMP/netbeans.zip" https://github.com/garethflowers/netbeans-porta
 unzip -o "$WTEMP/netbeans.zip" -d "$PA/NetBeansPortable"
 
 
-
 # LocalSMTP
 echo "Papercut SMTP Test Server"
 mkdir /$WDL/xampp/papercut
 testPath /$WDL/xampp/papercut
 curl -L -o "$WTEMP/papercut.zip" https://github.com/ChangemakerStudios/Papercut/releases/download/5.0.9/Papercut.5.0.9.zip
 unzip -o "$WTEMP/papercut.zip" -d "/$WDL/xampp/papercut"
-
-
-# PATH and bash aliases
-git clone https://github.com/jgonyea/portableDevEnvironment.git $WTEMP/pde
-cat $WTEMP/pde/bash_profile >> /$WDL/Documents/.bash_profile
-mv $WTEMP/pde/startDev.sh /$WDL/Documents/
 
 
 # Cleanup

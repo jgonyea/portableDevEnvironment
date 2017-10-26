@@ -2,6 +2,7 @@
 echo "Starting up Environment"
 # Find current working drive letter
 WDL=$(pwd | cut -c2)
+WDLupper=${WDL^^}
 
 
 # Fix drive letters in apps.
@@ -12,19 +13,14 @@ sed -i "s,\/.\/PortableApps,\/$WDL\/PortableApps,g" /$WDL/Documents/.bash_profil
 
 source /$WDL/Documents/.bash_profile
 
-
 echo "Fixing XAMPP Launcher Paths"
 sed -i "s,Editor=.\:,Editor=$WDL\:," /$WDL/xampp/xampp-control.ini
 sed -i "s,Browser=.\:,Browser=$WDL\:," /$WDL/xampp/xampp-control.ini
 
 
 echo "Fixing Netbeans paths"
-#find /$WDL/PortableApps/NetBeansPHPPortable/Data/Config -type f -exec 
-## sed -i "s,.\:\\,$WDL\:\\,g" {} \;
-# sed -i "s,phpInterpreter=.\:,phpInterpreter=$WDL\:," /$WDL/PortableApps/NetBeansPHPPortable/Data/Config/config/Preferences/org/netbeans/modules/php/project/general.properties
-# sed -i "s,composer.path=.\:,composer.path=$WDL\:," /$WDL/PortableApps/NetBeansPHPPortable/Data/Config/config/Preferences/org/netbeans/modules/php/composer/composer.properties
-# sed -i "s,codeSniffer.path=.\:,codeSniffer.path=$WDL\:," /$WDL/PortableApps/NetBeansPHPPortable/Data/Config/config/Preferences/org/netbeans/modules/php/code/analysis.properties
-
+find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;.\:\\;\'"$WDLupper"'\:\\;g' {} \;
+find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;\/.\:\/;\/'"$WDLupper"'\:\/;g' {} \;
 
 # Start apps.
 echo "Starting Apache, Papercut, XAMPP Launch, and Netbeans"

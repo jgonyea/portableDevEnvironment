@@ -3,7 +3,7 @@ Generates a portable web dev environment for the PortableApps Suite.
 
 ## What's Included
 The following are installed and configured for running off a usb drive:
-* XAMPP (with php7 and xdebug)
+* XAMPP (with php 7.1 and xdebug)
 * Composer
 * PHPCS
 * NodeJS (6.11.3)
@@ -35,9 +35,16 @@ In git-bash, browse to the folder and run build.sh.  There will be a confirmatio
 
 The cloned repository is not needed afterwards, and the folder can be discarded.
 
+## Running the Environment
+1. Open Git Portable from the PortableApps menu.  
+2. In the git bash window, type in `./startDev.sh`
+
+The script will auto-detect your drive letter (necessary if it's changed since last time), update it in all the places, and then open Netbeans, XAMPP, and Papercut with the new paths.
+
 ## Todo
 * Verify nodejs install location is reasonable.
 
 ## Notes
 * Papercut isn't technically a portable app, and it will leave a couple inconsequential files behind on the host machine.
 * On its first run, Git Portable may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error
+* Opening Netbeans from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information. If 
