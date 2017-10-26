@@ -14,20 +14,22 @@ function testPath {
 echo "Checking build environment"
 # Find current working drive letter
 WDL=$(pwd | cut -c2)
-
+echo "This will install applications onto the drive $WDL."
+read -p "Press Ctrl+C now to stop.  Otherwise, press any other key." -n1 -s
 
 PA="/$WDL/PortableApps"
 WTEMP="/$WDL/tmp/pa-build"
+
+# Check prereq's
 testPath /$WDL/Documents
-testPath /$WDL/Documents/Projects
 testPath $PA
 testPath $PA/7-ZipPortable
 testPath $PA/CommonFiles/Java
 testPath $PA/CommonFiles/Java64
-
 mkdir -p $WTEMP
 testPath "$WTEMP"
-
+mkdir -p /$WDL/Documents/Projects
+testPath /$WDL/Documents/Projects
 echo "All preq's found!  Beginning build."
 
 

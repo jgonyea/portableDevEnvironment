@@ -16,12 +16,28 @@ The following are installed and configured for running off a usb drive:
 * [PA Suite](https://portableapps.com/download)
 * [Git Portable](https://github.com/sheabunge/GitPortable)
 * [7-Zip Portable](https://portableapps.com/apps/utilities/7-zip_portable)
-* [Java and Java64](https://portableapps.com/apps/utilities/java_portable)
+* [Java and Java64 Portable](https://portableapps.com/apps/utilities/java_portable)
 
 
 ## Recommended, but not required
-* [Firefox](https://portableapps.com/apps/internet/firefox_portable)
-* [Notepad++](https://portableapps.com/apps/development/notepadpp_portable)
-* [WinSCP](https://portableapps.com/apps/internet/winscp_portable)
+* [Firefox Portable](https://portableapps.com/apps/internet/firefox_portable)
+* [Notepad++ Portable](https://portableapps.com/apps/development/notepadpp_portable)
+* [WinSCP Portable](https://portableapps.com/apps/internet/winscp_portable)
 
 ## Build Process
+Clone this repository to the drive you wish to install the development environment
+
+`git clone https://github.com/jgonyea/portableDevEnvironment.git /f/Documents/dev`
+
+where `f` is the drive letter.
+
+In git-bash, browse to the folder and run build.sh.  There will be a confirmation for which letter is detected as the target.
+
+The cloned repository is not needed afterwards, and the folder can be discarded.
+
+## Todo
+* Verify nodejs install location is reasonable.
+
+## Notes
+* Papercut isn't technically a portable app, and it will leave a couple inconsequential files behind on the host machine.
+* On its first run, Git Portable may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error
