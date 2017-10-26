@@ -5,8 +5,8 @@
 # Last Updated 20170912
 
 function testPath {
-	[ -d $1 ] && echo "Dir created at $1"
-	[ ! -d $1 ] && echo "Dir WAS NOT found at $1.  You'll need to create this manually before proceeding!" && exit
+	[ -d $1 ] && echo "Dir found at $1"
+	[ ! -d $1 ] && echo "$1 NOT found." && echo "Verify all prerequisites and/or manually create this folder." && exit
 
 }
 
@@ -17,24 +17,33 @@ WDL=$(pwd | cut -c2)
 
 #debug###########
 #################
-WDL="j"			 #
+WDL="j"			#
 #rm -rf "/$WDL"  #
 #################
 PA="/$WDL/PortableApps"
-WTEMP="/$WDL/tmp"
+WTEMP="/$WDL/tmp/pa-build"
 testPath /$WDL/Documents
+testPath /$WDL/Documents/Projects
 testPath $PA
 testPath $PA/7-ZipPortable
+testPath $PA/CommonFiles/Java
+testPath $PA/CommonFiles/Java64
 
 mkdir -p $WTEMP
 testPath "$WTEMP"
+
+echo "All preq's found!  Beginning build."
 
 
 # Git Portable
 ###################################
 echo "Git"
-curl -L -o "$WTEMP/gitPortable-2.13.0.paf.exe" https://github.com/sheabunge/GitPortable/releases/download/v2.13.0-devtest.1/GitPortable_2.13.0_Development_Test_1.paf.exe
+#curl -L -o "$WTEMP/gitPortable-2.13.0.paf.exe" https://github.com/sheabunge/GitPortable/releases/download/v2.13.0-devtest.1/GitPortable_2.13.0_Development_Test_1.paf.exe
 #"$WTEMP/gitPortable-2.13.0.paf.exe"
+sed -i 's;Git\\cmd\\git-gui.exe;Git\\git-bash.exe;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
+sed -i 's;WorkingDirectory=%PAL:DataDir%\\home;WorkingDirectory=%PAL:Drive%\\Documents\\Projects;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
+sed -i 's;HOME=%PAL:DataDir%\\home;HOME=%PAL:Drive%\\Documents\nCOMPOSER_HOME=%PAL:Drive%\\xampp\\globalcomposer;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
+
 
 # XAMPP Launcher Portable
 echo "XAMPP"
@@ -59,7 +68,6 @@ mkdir "/$WDL/xampp/bin"
 testPath "/$WDL/xampp/bin"
 printf '{\n\t"require-dev": {\n\t\t"squizlabs/php_codesniffer": "*",\n\t\t"phpdocumentor/phpdocumentor": "2.*"\n\t},\n\t"config": {\n\t\t"bin-dir": "/xampp/bin/"\n\t}\n}\n' > /$WDL/xampp/globalcomposer/composer.json
 curl -sS https://getcomposer.org/installer | "/$WDL/xampp/php/php" -- --install-dir="/$WDL/xampp/bin" --filename=composer
-
 
 
 ## Codesniffer
@@ -103,6 +111,7 @@ curl -L -o "$WTEMP/netbeans.zip" https://github.com/garethflowers/netbeans-porta
 unzip -o "$WTEMP/netbeans.zip" -d "$PA/NetBeansPortable"
 
 
+
 # LocalSMTP
 echo "Papercut SMTP Test Server"
 mkdir /$WDL/xampp/papercut
@@ -111,11 +120,13 @@ curl -L -o "$WTEMP/papercut.zip" https://github.com/ChangemakerStudios/Papercut/
 unzip -o "$WTEMP/papercut.zip" -d "/$WDL/xampp/papercut"
 
 
-# PATH
-
-
-# bash aliases
+# PATH and bash aliases
+git clone https://github.com/jgonyea/portableDevEnvironment.git $WTEMP/pde
+cat $WTEMP/pde/bash_profile >> /$WDL/Documents/.bash_profile
+mv $WTEMP/pde/startDev.sh /$WDL/Documents/
 
 
 # Cleanup
-rm -rf $WTEMP/*
+echo "Cleanup"
+echo "Deleting $WTEMP"
+rm -rf $WTEMP
