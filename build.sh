@@ -15,11 +15,7 @@ echo "Checking build environment"
 # Find current working drive letter
 WDL=$(pwd | cut -c2)
 
-#debug###########
-#################
-WDL="j"			#
-#rm -rf "/$WDL"  #
-#################
+
 PA="/$WDL/PortableApps"
 WTEMP="/$WDL/tmp/pa-build"
 testPath /$WDL/Documents
