@@ -35,6 +35,8 @@ In git-bash, browse to the folder and run build.sh.  There will be a confirmatio
 
 The cloned repository is not needed afterwards, and the folder can be discarded.
 
+Close git-bash after building.  Subsequent bash sessions will include all the proper PATH locations.
+
 ## Running the Environment
 1. Open Git Portable from the PortableApps menu.  
 2. In the git bash window, type in `./startDev.sh`
@@ -46,5 +48,6 @@ The script will auto-detect your drive letter (necessary if it's changed since l
 
 ## Notes
 * Papercut isn't technically a portable app, and it will leave a couple inconsequential files behind on the host machine.
-* On its first run, Git Portable may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error
-* Opening Netbeans from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information. If 
+* Papercut dumps some warning messages to the git-bash window.  These can be ignored.
+* On its first run, git-bash may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error
+* Opening Netbeans from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `$ netbeans`, and pressing enter.
