@@ -15,7 +15,7 @@ echo "Checking build environment"
 # Find current working drive letter
 WDL=$(pwd | cut -c2)
 echo "This will install applications onto the drive $WDL."
-read -p "Press Ctrl+C now to stop.  Otherwise, press any other key." -n1 -s
+read -p "Press Ctrl+C to stop now.  Otherwise, press any other key." -n1 -s
 
 PA="/$WDL/PortableApps"
 WTEMP="/$WDL/tmp/pa-build"
@@ -46,6 +46,7 @@ sed -i 's;HOME=%PAL:DataDir%\\home;HOME=%PAL:Drive%\\Documents\nCOMPOSER_HOME=%P
 # PATH and bash aliases
 git clone https://github.com/jgonyea/portableDevEnvironment.git $WTEMP/pde
 cat $WTEMP/pde/bash_profile >> /$WDL/Documents/.bash_profile
+source /$WDL/Documents/.bash_profile
 mv $WTEMP/pde/startDev.sh /$WDL/Documents/Projects
 
 
@@ -76,7 +77,8 @@ curl -sS https://getcomposer.org/installer | "/$WDL/xampp/php/php" -- --install-
 
 ## Codesniffer
 echo "Codesniffer"
-cd $WTEMP/
+cd /$WDL/xampp/globalcomposer
+/$WDL/xampp/php/php /$WDL/xampp/bin/composer install
 
 
 # NodeJS Portable
@@ -93,6 +95,7 @@ mv $PA/NodeJSPortable/App/DefaultData /$WDL/PortableApps/NodeJSPortable/App/Defa
 mkdir $PA/NodeJSPortable/App/DefaultData
 testPath $PA/NodeJSPortable/App/DefaultData
 mv $WTEMP/node-v6.11.3-win-x64/* $PA/NodeJSPortable/App/DefaultData
+cp -R $PA/NodeJSPortable/App/DefaultData/ $PA/NodeJSPortable/Data
 
 
 # Ruby
@@ -123,7 +126,13 @@ curl -L -o "$WTEMP/papercut.zip" https://github.com/ChangemakerStudios/Papercut/
 unzip -o "$WTEMP/papercut.zip" -d "/$WDL/xampp/papercut"
 
 
+# Package Managers
+echo "Package Managers"
+/$WDL/xampp/ruby/bin/ruby install bundler
+
+
 # Cleanup
 echo "Cleanup"
 echo "Deleting $WTEMP"
 rm -rf $WTEMP
+rm -rf $PA/NodeJSPortable/App/DefaultDataOld
