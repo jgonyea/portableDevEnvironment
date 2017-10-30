@@ -3,7 +3,7 @@ echo "Starting up Environment"
 # Find current working drive letter
 WDL=$(pwd | cut -c2)
 WDLupper=${WDL^^}
-
+PA="/$WDL/PortableApps"
 
 # Fix drive letters in apps.
 echo "Fixing drive letters to match current detected drive letter ($WDL)"
@@ -18,17 +18,21 @@ sed -i "s,Editor=.\:,Editor=$WDL\:," /$WDL/xampp/xampp-control.ini
 sed -i "s,Browser=.\:,Browser=$WDL\:," /$WDL/xampp/xampp-control.ini
 
 
-echo "Fixing Netbeans paths"
-find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;.\:\\;\'"$WDLupper"'\:\\;g' {} \;
-find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;\/.\:\/;\/'"$WDLupper"'\:\/;g' {} \;
+if [ -d $PA/NetBeansPortable/Data/Config]; then
+	echo "Fixing Netbeans paths"
+	find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;.\:\\;\'"$WDLupper"'\:\\;g' {} \;
+	find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;\/.\:\/;\/'"$WDLupper"'\:\/;g' {} \;
+fi
 
 # Start apps.
-echo "Starting Apache, Papercut, XAMPP Launch, and Netbeans"
+echo "Starting Apache/ XAMPP Launcher"
 /$WDL/xampp/apache/bin/httpd.exe&
-/$WDL/xampp/papercut/Papercut.exe&
 /$WDL/PortableApps/XAMPP/XAMPPLauncher.exe&
-/$WDL/PortableApps/NetbeansPortable/NetBeansPHPPortable.exe&
-echo "Apps loaded, this may take a little while..."
-
-
-echo "Environment Started"
+if [-d /$WDL/xampp/papercut]; then
+	echo "Starting Papercut"
+	/$WDL/xampp/papercut/Papercut.exe&
+fi
+if [ -d $PA/NetBeansPortable/Data/Config]; then
+	echo "Starting Netbeans.  This may take a little while"
+	/$WDL/PortableApps/NetbeansPortable/NetBeansPHPPortable.exe&
+fi

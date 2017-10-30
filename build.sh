@@ -39,8 +39,8 @@ function initEnv {
 	testPath "$WTEMP"
 	mkdir -p /$WDL/Documents/Projects
 	testPath /$WDL/Documents/Projects
-	echo "All preq's found!  Beginning build."
-	sleep 1
+	echo "All preq's found!  Beginning build process."
+	sleep 5
 	clear
 }
 
@@ -52,7 +52,6 @@ function setRequiredOptions {
 	choices[5]="*"
 }
 
-
 # Menu function.
 function MENU {
     echo "Menu Options"
@@ -62,6 +61,14 @@ function MENU {
     echo "$ERROR"
 }
 
+# Cleanup temporary files
+function CLEANUP {
+	# Cleanup
+	###################################
+	echo "Cleanup"
+	echo "Deleting $WTEMP"
+	rm -rf $WTEMP
+}
 
 # Confirm environment prerequisites.
 initEnv
@@ -79,9 +86,8 @@ options[7]="Papercut SMTP Server Emulator"
 setRequiredOptions
 
 
-
-#Actions to take based on selection
-function ACTIONS {
+# Selection based installations
+function BUILD {
     if [[ ${choices[0]} ]]; then
         # Git Portable
 		###################################
@@ -122,7 +128,7 @@ function ACTIONS {
 		printf "\nzend_extension = php_xdebug-2.5.4-7.1-vc14.dll\n" >> /$WDL/xampp/php/php.ini
 		sed -i 's;/xampp/htdocs;/Documents/Projects/public_html;g' /$WDL/xampp/apache/conf/httpd.conf
 		echo "Running XAMPP Launcher Installer"
-		$WTEMP/xampp.paf.exe
+		printf "\nexport PATH=\"/$WDL/xampp/bin:$WDL/xampp/php:"'$PATH"' >> /$WDL/Documents/.bash_profile
     fi
     if [[ ${choices[2]} ]]; then
 		## Composer
@@ -142,6 +148,9 @@ function ACTIONS {
 		cd /$WDL/xampp/globalcomposer
 		printf '{\n\t"require-dev": {\n\t\t"squizlabs/php_codesniffer": "*",\n\t\t"phpdocumentor/phpdocumentor": "2.*"\n\t},\n\t"config": {\n\t\t"bin-dir": "/xampp/bin/"\n\t}\n}\n' > /$WDL/xampp/globalcomposer/composer.json
 		/$WDL/xampp/php/php /$WDL/xampp/bin/composer install
+		printf "\nalias phpcs=\"/$WDL/xampp/bin/phpcs --colors\"" >> /$WDL/Documents/.bash_profile
+		printf "\nalias phpcbf=\"/$WDL/xampp/bin/phpcbf --colors\"" >> /$WDL/Documents/.bash_profile
+		
     fi
     if [[ ${choices[4]} ]]; then
 		# NodeJS Portable
@@ -155,12 +164,13 @@ function ACTIONS {
 		echo "Upgrading NodeJS 5.7 -> 6.11"
 		unzip -o "$WTEMP/nodeJS-6.11.3.zip" -d $WTEMP
 		mv $WTEMP/node-v6.11.3-win-x64/node.exe $PA/NodeJSPortable/App/NodeJS
-		mv $PA/NodeJSPortable/App/DefaultData /$WTEMP/DefaultDataOld
-		mkdir $PA/NodeJSPortable/App/DefaultData
+		mv $PA/NodeJSPortable/App/DefaultData $WTEMP/nodejs/DefaultDataOld
+		mkdir -p $PA/NodeJSPortable/App/DefaultData
 		testPath $PA/NodeJSPortable/App/DefaultData
 		# NodeJs needs to be installed to two locations.
 		mv $WTEMP/node-v6.11.3-win-x64/* $PA/NodeJSPortable/App/DefaultData
 		cp -R $PA/NodeJSPortable/App/DefaultData/* $PA/NodeJSPortable/Data
+		printf "\nexport PATH=\"/$WDL/PortableApps/NodeJSPortable/App/NodeJS:/$WDL/PortableApps/NodeJSPortable/Data:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
     if [[ ${choices[5]} ]]; then
 		# Ruby
@@ -174,6 +184,7 @@ function ACTIONS {
 		$PA/7-ZipPortable/App/7-Zip64/7zG.exe x $WTEMP/ruby/ruby-2.3.3.7z
 		mv $WTEMP/ruby/ruby-2.3.3-x64-mingw32 /$WDL/xampp/ruby
 		/$WDL/xampp/ruby/bin/ruby install bundler
+		printf "\nexport PATH=\"/$WDL/xampp/ruby/bin/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
     if [[ ${choices[6]} ]]; then
 		# NetBeans Portable
@@ -184,6 +195,7 @@ function ACTIONS {
 		testPath $PA/NetBeansPortable
 		curl -L -o "$WTEMP/netbeans.zip" https://github.com/garethflowers/netbeans-portable/releases/download/v8.1/NetBeansPHPPortable_8.1.zip
 		unzip -o "$WTEMP/netbeans.zip" -d "$PA/NetBeansPortable"
+		printf "\nalias netbeans=\"/$WDL/PortableApps/NetBeansPortable/NetBeansPHPPortable.exe&\"" >> /$WDL/Documents/.bash_profile
     fi
     if [[ ${choices[7]} ]]; then
 		# LocalSMTP
@@ -193,16 +205,15 @@ function ACTIONS {
 		testPath /$WDL/xampp/papercut
 		curl -L -o "$WTEMP/papercut.zip" https://github.com/ChangemakerStudios/Papercut/releases/download/5.0.9/Papercut.5.0.9.zip
 		unzip -o "$WTEMP/papercut.zip" -d "/$WDL/xampp/papercut"
+		printf "\nalias papercut=\"/$WDL/xampp/papercut/Papercut.exe&\"" >> /$WDL/Documents/.bash_profile
     fi
 }
 
-#Variables
-#ERROR=" "
 
-#Clear screen for menu
+# Clear screen for menu
 clear
 
-#Menu loop
+# Menu loop
 while MENU && echo "Select optional items to install/ configure.  Starred items are required" && read -e -p "Select the desired options using their number (again to uncheck, ENTER when done): " -n1 SELECTION && [[ -n "$SELECTION" ]]; do
     setRequiredOptions
 	clear
@@ -220,14 +231,6 @@ while MENU && echo "Select optional items to install/ configure.  Starred items 
 	
 done
 
-ACTIONS
-
-exit
-
-
-
-# Cleanup
-###################################
-echo "Cleanup"
-echo "Deleting $WTEMP"
-#rm -rf $WTEMP
+# Perform all selected actions from menu.
+BUILD
+CLEANUP
