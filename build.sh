@@ -123,6 +123,7 @@ function BUILD {
 		printf "\nzend_extension = php_xdebug-2.5.4-7.1-vc14.dll\n" >> /$WDL/xampp/php/php.ini
 		sed -i 's;/xampp/htdocs;/Documents/Projects/public_html;g' /$WDL/xampp/apache/conf/httpd.conf
 		echo "Running XAMPP Launcher Installer"
+		$WTEMP/xampp.paf.exe
 		printf "\nexport PATH=\"/$WDL/xampp/bin:/$WDL/xampp/php:"'$PATH"' >> /$WDL/Documents/.bash_profile
     fi
     if [[ ${choices[2]} ]]; then
