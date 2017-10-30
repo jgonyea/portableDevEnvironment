@@ -18,7 +18,7 @@ sed -i "s,Editor=.\:,Editor=$WDL\:," /$WDL/xampp/xampp-control.ini
 sed -i "s,Browser=.\:,Browser=$WDL\:," /$WDL/xampp/xampp-control.ini
 
 
-if [ -d $PA/NetBeansPortable/Data/Config]; then
+if [ -d $PA/NetBeansPortable/Data/Config ]; then
 	echo "Fixing Netbeans paths"
 	find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;.\:\\;\'"$WDLupper"'\:\\;g' {} \;
 	find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;\/.\:\/;\/'"$WDLupper"'\:\/;g' {} \;
@@ -28,11 +28,11 @@ fi
 echo "Starting Apache/ XAMPP Launcher"
 /$WDL/xampp/apache/bin/httpd.exe&
 /$WDL/PortableApps/XAMPP/XAMPPLauncher.exe&
-if [-d /$WDL/xampp/papercut]; then
+if [-d /$WDL/xampp/papercut ]; then
 	echo "Starting Papercut"
 	/$WDL/xampp/papercut/Papercut.exe&
 fi
-if [ -d $PA/NetBeansPortable/Data/Config]; then
+if [ -d $PA/NetBeansPortable/Data/Config ]; then
 	echo "Starting Netbeans.  This may take a little while"
 	/$WDL/PortableApps/NetbeansPortable/NetBeansPHPPortable.exe&
 fi
