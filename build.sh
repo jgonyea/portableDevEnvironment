@@ -120,7 +120,7 @@ function BUILD {
 		curl -L -o "$WTEMP/xampp-7.1.8.0.zip" https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.1.8/xampp-portable-win32-7.1.8-0-VC14.zip/download
 		unzip -o "$WTEMP/xampp-7.1.8.0.zip" -d "/$WDL/"
 		curl -L -o "/$WDL/xampp/php/ext/php_xdebug-2.5.4-7.1-vc14.dll" http://xdebug.org/files/php_xdebug-2.5.4-7.1-vc14.dll
-		printf "\nzend_extension = php_xdebug-2.5.4-7.1-vc14.dll\n" >> /$WDL/xampp/php/php.ini
+		printf "\n\n[XDebug]\nxdebug.remote_autostart = 1\nxdebug.profiler_append = 0\nxdebug.profiler_enable = 0\nxdebug.profiler_enable_trigger = 0\nxdebug.remote_enable = 1\nxdebug.remote_handler = "dbgp"\nxdebug.remote_host = "127.0.0.1"\nxdebug.remote_port = 9000\nzend_extension = php_xdebug-2.5.4-7.1-vc14.dll" >> /$WDL/xampp/php/php.ini
 		sed -i 's;/xampp/htdocs;/Documents/Projects/public_html;g' /$WDL/xampp/apache/conf/httpd.conf
 		echo "Running XAMPP Launcher Installer"
 		$WTEMP/xampp.paf.exe
