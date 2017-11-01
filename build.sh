@@ -159,8 +159,10 @@ function BUILD {
 		"$WTEMP/nodeJSPortable-5-7-0.paf.exe"
 		echo "Upgrading NodeJS 5.7 -> 6.11"
 		unzip -o "$WTEMP/nodeJS-6.11.3.zip" -d $WTEMP
-		mv $WTEMP/node-v6.11.3-win-x64/node.exe $PA/NodeJSPortable/App/NodeJS
-		mv $PA/NodeJSPortable/App/DefaultData $WTEMP/nodejs/DefaultDataOld
+		rm $PA/NodeJSPortable/App/NodeJS/node.exe
+                mv $WTEMP/node-v6.11.3-win-x64/node.exe $PA/NodeJSPortable/App/NodeJS
+		mkdir -p $WTEMP/nodejs/DefaultDataOld
+                mv $PA/NodeJSPortable/App/DefaultData $WTEMP/nodejs/DefaultDataOld
 		mkdir -p $PA/NodeJSPortable/App/DefaultData
 		testPath $PA/NodeJSPortable/App/DefaultData
 		# NodeJs needs to be installed to two locations.
