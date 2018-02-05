@@ -79,7 +79,7 @@ options[0]="Git Portable Config"
 options[1]="XAMPP"
 options[2]="Composer (Global)"
 options[3]="PHP Code Sniffer"
-options[4]="NodeJS"
+options[4]="NodeJS v8.9.4"
 options[5]="Ruby"
 options[6]="NetBeansPHP"
 options[7]="Papercut SMTP Server Emulator"
@@ -97,7 +97,7 @@ function BUILD {
 		sed -i 's;Git\\cmd\\git-gui.exe;Git\\git-bash.exe;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;WorkingDirectory=%PAL:DataDir%\\home;WorkingDirectory=%PAL:Drive%\\Documents\\Projects;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;HOME=%PAL:DataDir%\\home;HOME=%PAL:Drive%\\Documents\nCOMPOSER_HOME=%PAL:Drive%\\xampp\\globalcomposer;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
-		echo "Git Bash confgiration complete.  Next git-bash run will use the new HOME of /$WDL/Documents"
+		echo "Git Bash configuration complete.  Next git-bash run will use the new HOME of /$WDL/Documents"
 		
 		# PATH and bash aliases
 		###################################
@@ -154,19 +154,21 @@ function BUILD {
 		echo "NodeJS"
 		cd $WTEMP/
 		curl -L -o "$WTEMP/nodeJSPortable-5-7-0.paf.exe" https://github.com/garethflowers/nodejs-portable/releases/download/v5.7.0/NodeJSPortable_5.7.0.paf.exe
-		curl -L -o "$WTEMP/nodeJS-6.11.3.zip" https://nodejs.org/dist/v6.11.3/node-v6.11.3-win-x64.zip
+		curl -L -o "$WTEMP/node-v8.9.4-win-x64.zip" https://nodejs.org/dist/v8.9.4/node-v8.9.4-win-x64.zip
 		echo "Running NodeJS Installer"
-		"$WTEMP/nodeJSPortable-5-7-0.paf.exe"
-		echo "Upgrading NodeJS 5.7 -> 6.11"
-		unzip -o "$WTEMP/nodeJS-6.11.3.zip" -d $WTEMP
+		$WTEMP/nodeJSPortable-5-7-0.paf.exe
+		echo "Upgrading NodeJS 5.7 -> 8.9.4"
+		unzip -oq "$WTEMP/node-v8.9.4-win-x64.zip" -d $WTEMP
 		rm $PA/NodeJSPortable/App/NodeJS/node.exe
-                mv $WTEMP/node-v6.11.3-win-x64/node.exe $PA/NodeJSPortable/App/NodeJS
+		mv $WTEMP/node-v8.9.4-win-x64/node.exe $PA/NodeJSPortable/App/NodeJS
 		mkdir -p $WTEMP/nodejs/DefaultDataOld
-                mv $PA/NodeJSPortable/App/DefaultData $WTEMP/nodejs/DefaultDataOld
+		mv $PA/NodeJSPortable/App/DefaultData $WTEMP/nodejs/DefaultDataOld
 		mkdir -p $PA/NodeJSPortable/App/DefaultData
 		testPath $PA/NodeJSPortable/App/DefaultData
+
 		# NodeJs needs to be installed to two locations.
-		mv $WTEMP/node-v6.11.3-win-x64/* $PA/NodeJSPortable/App/DefaultData
+		mv $WTEMP/node-v8.9.4-win-x64/* $PA/NodeJSPortable/App/DefaultData
+		echo "Installing the rest of NodeJS 8.9.4"
 		cp -R $PA/NodeJSPortable/App/DefaultData/* $PA/NodeJSPortable/Data
 		printf "\nexport PATH=\"/$WDL/PortableApps/NodeJSPortable/App/NodeJS:/$WDL/PortableApps/NodeJSPortable/Data:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
