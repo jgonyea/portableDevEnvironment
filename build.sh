@@ -97,13 +97,11 @@ function BUILD {
     # Git Portable
 		###################################
 		echo "Configure Git Bash"
-		#curl -L -o "$WTEMP/gitPortable-2.13.0.paf.exe" https://github.com/sheabunge/GitPortable/releases/download/v2.13.0-devtest.1/GitPortable_2.13.0_Development_Test_1.paf.exe
-		#"$WTEMP/gitPortable-2.13.0.paf.exe"
     
     curl -L -o "$WTEMP/gitPortableUpdate.7z.exe" https://github.com/git-for-windows/git/releases/download/v2.17.1.windows.2/PortableGit-2.17.1.2-32-bit.7z.exe
 		mkdir -p $PA/GitPortable/App/GitUpdate
     $WTEMP/gitPortableUpdate.7z.exe -y -o"$PA/GitPortable/App/GitUpdate/"
-    mv $WTEMP/PortableGit $WDL/tmp/GitUpdate
+    mv $WTEMP/PortableGit /$WDL/tmp/GitUpdate
     
 		sed -i 's;Git\\cmd\\git-gui.exe;Git\\git-bash.exe;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;WorkingDirectory=%PAL:DataDir%\\home;WorkingDirectory=%PAL:Drive%\\Documents\\Projects;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
