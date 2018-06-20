@@ -1,51 +1,58 @@
 # Portable Dev Environment for PortableApps Suite
+
 Generates a portable web dev environment for the PortableApps Suite.
 
-## What's Included
+## What's Inside
+
 The following are installed and configured for running off a usb drive:
+
 * XAMPP (with php 7.1 and xdebug)
 * Composer
 * PHPCS
-* NodeJS (6.11.3)
-* Ruby (2.3.3)
-* Netbeans (8.1)
+* NodeJS
+* Ruby
+* Netbeans
+* Microsoft VS Code
 * Papercut SMTP server emulator (see notes below about running Papercut)
 
-
 ## Prerequisites
+
 * [PA Suite](https://portableapps.com/download)
 * [Git Portable](https://github.com/sheabunge/GitPortable)
+* * Used to run the build script
 * [7-Zip Portable](https://portableapps.com/apps/utilities/7-zip_portable)
+* * Used to extract Ruby 7z file
 * [Java and Java64 Portable](https://portableapps.com/apps/utilities/java_portable)
-
+* * Used to run Netbeans and other java files
 
 ## Recommended, but not required
+
 * [Firefox Portable](https://portableapps.com/apps/internet/firefox_portable)
 * [Notepad++ Portable](https://portableapps.com/apps/development/notepadpp_portable)
 * [WinSCP Portable](https://portableapps.com/apps/internet/winscp_portable)
 
 ## Build Process
-Clone this repository to the drive you wish to install the development environment
 
-`git clone https://github.com/jgonyea/portableDevEnvironment.git /f/Documents/dev`
+Use Git Portable to clone the existing repo to the drive you wish to install the development environment
 
-where `f` is the drive letter.
+`git clone https://github.com/jgonyea/portableDevEnvironment.git /f/Documents/portableDevEnvironment`
 
-In git-bash, browse to the folder and run build.sh.  There will be a confirmation for which letter is detected as the target.
-
-The cloned repository is not needed afterwards, and the folder can be discarded.
+From the **Repository** menu, open git-bash.  Run `$ ./build.sh`, and there will be a confirmation for which letter is detected as the target.
 
 Close git-bash after building.  Subsequent bash sessions will include all the proper PATH locations.
 
+Run `updateGitPortable.bat` after closing git-bash to update git to a later version.
+
+The cloned repository is not needed afterwards, and the folder can be discarded.
+
 ## Running the Environment
+
 1. Open Git Portable from the PortableApps menu.  
-2. In the git bash window, type in `./startDev.sh`
-
-The script will auto-detect your drive letter (necessary if it's changed since last time), update it in all the places, and then open Netbeans, XAMPP, and Papercut (if installed) with the new paths.
-
+2. In the git bash window, type in `./fixLetters.sh`.  The script will auto-detect your drive letter (necessary if it's changed since last time), update it in all the places it can with the new paths.
 
 ## Notes
+
 * Papercut isn't technically a portable app, and it may leave a couple of inconsequential files behind on the host machine.
 * Papercut dumps some warning messages to the git-bash window.  These can be ignored.
 * On its first run, git-bash may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error
-* Opening Netbeans from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `$ netbeans`, and pressing enter.
+* Opening Netbeans or VSCode from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `$ netbeans` or `$ vscode`, and pressing enter.

@@ -1,0 +1,13 @@
+# v1.0.0
+## 2018/06/20
+
+1. [](#new)
+    * VSCode Portable added
+    * New bat script for updating GitPortable
+    * startDev script changed to fixLetters.  No programs are auto-started anymore.
+2. [](#improved)
+    * XAMPP and NodeJS are updated to latest stable builds
+3. [](#bugfix)
+    * PATH variable fixes
+    * .bash_aliases created
+    * Various bugfixes
