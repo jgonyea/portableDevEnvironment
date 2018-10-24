@@ -125,10 +125,10 @@ function BUILD {
 		mkdir -p "/$WDL/Documents/Projects/public_html"
 		testPath "/$WDL/Documents/Projects/public_html"
 		curl -L -o "$WTEMP/xampp.paf.exe" https://downloads.sourceforge.net/portableapps/XAMPP_1.6.paf.exe?download
-		curl -L -o "$WTEMP/xampp-7.1.18.0.zip" https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.1.18/xampp-portable-win32-7.1.18-0-VC14.zip/download
-		unzip -o "$WTEMP/xampp-7.1.18.0.zip" -d "/$WDL/"
-		curl -L -o "/$WDL/xampp/php/ext/php_xdebug-2.5.4-7.1-vc14.dll" http://xdebug.org/files/php_xdebug-2.5.4-7.1-vc14.dll
-		printf "\n\n[XDebug]\nxdebug.remote_autostart = 1\nxdebug.profiler_append = 0\nxdebug.profiler_enable = 0\nxdebug.profiler_enable_trigger = 0\nxdebug.remote_enable = 1\nxdebug.remote_handler = "dbgp"\nxdebug.remote_host = "127.0.0.1"\nxdebug.remote_port = 9000\nzend_extension = php_xdebug-2.5.4-7.1-vc14.dll" >> /$WDL/xampp/php/php.ini
+		curl -L -o "$WTEMP/xampp-7.2.11.0.zip" https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.2.11/xampp-portable-win32-7.2.11-0-VC15.zip/download
+		unzip -o "$WTEMP/xampp-7.2.11.0.zip" -d "/$WDL/"
+		curl -L -o "/$WDL/xampp/php/ext/php_xdebug-2.6.1-7.2-vc15.dll" http://xdebug.org/files/php_xdebug-2.6.1-7.2-vc15.dll
+		printf "\n\n[XDebug]\nxdebug.remote_autostart = 1\nxdebug.profiler_append = 0\nxdebug.profiler_enable = 0\nxdebug.profiler_enable_trigger = 0\nxdebug.remote_enable = 1\nxdebug.remote_handler = "dbgp"\nxdebug.remote_host = "127.0.0.1"\nxdebug.remote_port = 9000\nzend_extension = php_xdebug-2.6.1-7.2-vc15.dll" >> /$WDL/xampp/php/php.ini
 		sed -i 's;/xampp/htdocs;/Documents/Projects/public_html;g' /$WDL/xampp/apache/conf/httpd.conf
 		echo "Running XAMPP Launcher Installer"
 		$WTEMP/xampp.paf.exe
@@ -142,7 +142,7 @@ function BUILD {
 		cd $WTEMP/
 		mkdir -p "/$WDL/xampp/globalcomposer"
 		testPath "/$WDL/xampp/globalcomposer"
-		mkdir "/$WDL/xampp/bin"
+		mkdir -p "/$WDL/xampp/bin"
 		testPath "/$WDL/xampp/bin"
 		curl -sS https://getcomposer.org/installer | "/$WDL/xampp/php/php" -- --install-dir="/$WDL/xampp/bin" --filename=composer
     fi
