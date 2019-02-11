@@ -208,8 +208,8 @@ function BUILD {
 		# Microsoft VSCode
 		###################################
 		echo "Microsoft VSCode"
-		curl -L -o "$WTEMP/VSCodePortable_1.24.0_online.paf.exe" https://github.com/garethflowers/vscode-portable/releases/download/v1.24.0/VSCodePortable_1.24.0_online.paf.exe
-		$WTEMP/VSCodePortable_1.24.0_online.paf.exe
+		curl -L -o "$WTEMP/VSCodePortable_Latest_v1.0.1_online.paf.exe" https://github.com/garethflowers/vscode-portable/releases/download/latest-v1.0.1/VSCodePortable_Latest_v1.0.1_online.paf.exe
+		$WTEMP/VSCodePortable_Latest_v1.0.1_online.paf.exe
 		printf "\nalias vscode=\"/$WDL/PortableApps/VSCodePortable/VSCodePortable.exe&\"" >> /$WDL/Documents/.bash_aliases
     fi
 }
