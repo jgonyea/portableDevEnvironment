@@ -19,11 +19,11 @@ The following are installed and configured for running off a usb drive:
 
 * [PA Suite](https://portableapps.com/download)
 * [Git Portable](https://github.com/sheabunge/GitPortable)
-* * Used to run the build script
+  * Used to run this build script and pass PATH environment variables to apps
 * [7-Zip Portable](https://portableapps.com/apps/utilities/7-zip_portable)
-* * Used to extract Ruby 7z file
+  * Used to extract Ruby 7z file
 * [Java and Java64 Portable](https://portableapps.com/apps/utilities/java_portable)
-* * Used to run Netbeans and other java files
+  * Used to run Netbeans and other java files
 
 ## Recommended, but not required
 
@@ -37,22 +37,18 @@ Use Git Portable to clone the existing repo to the drive you wish to install the
 
 `git clone https://github.com/jgonyea/portableDevEnvironment.git /f/Documents/portableDevEnvironment`
 
-From the **Repository** menu, open git-bash.  Run `$ ./build.sh`, and there will be a confirmation for which letter is detected as the target.
+From the **Repository** menu, open git-bash.  Run `./build.sh`, and there will be a confirmation for which letter is detected as the target.
 
 Close git-bash after building.  Subsequent bash sessions will include all the proper PATH locations.
 
-Run `updateGitPortable.bat` after closing git-bash to update git to a later version.
-
-The cloned repository is not needed afterwards, and the folder can be discarded.
+This cloned repository is not needed afterwards, and the folder can be discarded.
 
 ## Running the Environment
 
-1. Open Git Portable from the PortableApps menu.  
-2. In the git bash window, type in `./fixLetters.sh`.  The script will auto-detect your drive letter (necessary if it's changed since last time), update it in all the places it can with the new paths.
+1. Open Git Portable from the PortableApps menu.
+2. In the git bash window, typing in `~/fixLetters.sh --force` will force a device letter recheck and update.  The script will auto-detect your drive letter and update it in all the places it can with the new paths.
 
 ## Notes
 
-* Papercut isn't technically a portable app, and it may leave a couple of inconsequential files behind on the host machine.
-* Papercut dumps some warning messages to the git-bash window.  These can be ignored.
-* On its first run, git-bash may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error
-* Opening Netbeans or VSCode from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `$ netbeans` or `$ vscode`, and pressing enter.
+* On its first run, git-bash may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error.
+* Opening Netbeans or VSCode from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `netbeans` or `vscode`, and pressing enter.

@@ -1,42 +1,39 @@
 #!/usr/bin/env bash
-echo "Starting up Environment"
-# Find current working drive letter
+
+source ~/.lastDriveLetter
 WDL=$(pwd | cut -c2)
 WDLupper=${WDL^^}
 PA="/$WDL/PortableApps"
 
-# Fix drive letters in apps.
-echo "Fixing drive letters to match current detected drive letter ($WDL)"
-echo "Fixing shell paths"
-sed -i "s,\/.\/xampp,\/$WDL\/xampp,g" /$WDL/Documents/.bash_profile
-sed -i "s,\/.\/PortableApps,\/$WDL\/PortableApps,g" /$WDL/Documents/.bash_profile
 
-source /$WDL/Documents/.bash_profile
+if [ "$WDL" = "$LASTDRIVE" ] && [ "$1" != "--force" ]; then
+    exit
+fi
 
-echo "Fixing XAMPP Launcher Paths"
-sed -i "s,Editor=.\:,Editor=$WDL\:," /$WDL/xampp/xampp-control.ini
-sed -i "s,Browser=.\:,Browser=$WDL\:," /$WDL/xampp/xampp-control.ini
+echo "=== Drive letter changed or check forced ==="
 
+echo " |- Updating drive letter from $LASTDRIVE to $WDL =="
+sed -i "s,LASTDRIVE=$LASTDRIVE,LASTDRIVE=$WDL," ~/.lastDriveLetter
+source ~/.lastDriveLetter
+
+echo " |- Fixing bash_aliases == "
+sed -i "s,/./,/$LASTDRIVE/," /$WDL/Documents/.bash_aliases
+
+echo " |- Fixing XAMPP Launcher Paths =="
+sed -i "s,Editor=.\:,Editor=$LASTDRIVE\:," /$WDL/xampp/xampp-control.ini
+sed -i "s,Browser=.\:,Browser=$LASTDRIVE\:," /$WDL/xampp/xampp-control.ini
 
 if [ -d $PA/NetBeansPortable/Data/Config ]; then
-    echo "Fixing Netbeans paths"
-    find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;.\:\\;\'"$WDLupper"'\:\\;g' {} \;
-    find /$WDL/PortableApps/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;\/.\:\/;\/'"$WDLupper"'\:\/;g' {} \;
+    echo " |- Fixing Netbeans paths =="
+    find $PA/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;.\:\\;\'"$WDLupper"'\:\\;g' {} \;
+    find $PA/NetBeansPortable/Data/Config -type f -name "*.properties" -exec sed -i 's;\/.\:\/;\/'"$WDLupper"'\:\/;g' {} \;
 fi
 if [ -d $PA/NetBeansPortable/Data/Cache ]; then
-    echo "Invalidating Netbeans' Cache folder"
-    rm -rf /$WDL/PortableApps/NetBeansPortable/Data/Cache
+    echo " |- Invalidating Netbeans' Cache folder =="
+    rm -rf $PA/NetBeansPortable/Data/Cache
 fi
 
-# Start apps.
-echo "Starting Apache/ XAMPP Launcher"
-/$WDL/xampp/apache/bin/httpd.exe&
-/$WDL/PortableApps/XAMPP/XAMPPLauncher.exe&
-if [ -d /$WDL/xampp/papercut ]; then
-    echo "Starting Papercut"
-    /$WDL/xampp/papercut/Papercut.exe&
-fi
-if [ -d $PA/NetBeansPortable/Data/Config ]; then
-    echo "Starting Netbeans.  This may take a little while"
-    /$WDL/PortableApps/NetbeansPortable/NetBeansPHPPortable.exe&
-fi
+echo "=== Finished updating paths ==="
+
+
+source ~/.bash_profile

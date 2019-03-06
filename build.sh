@@ -109,7 +109,11 @@ function BUILD {
 				
 		# Bash aliases setup
 		###################################
+		printf "\nif [ -f ~/fixLetters.sh ]; then\n\t. ~/fixLetters.sh\nfi" >> /$WDL/Documents/.bash_profile
 		printf "\nif [ -f ~/.bash_aliases ]; then\n\t. ~/.bash_aliases\nfi" >> /$WDL/Documents/.bash_profile
+		printf "\nsource ~/.lastDriveLetter\n" >> /$WDL/Documents/.bash_profile
+		printf "LASTDRIVE=$WDL" > /$WDL/Documents/.lastDriveLetter
+		curl -L -o /$WDL/Documents/fixLetters.sh https://raw.githubusercontent.com/jgonyea/portableDevEnvironment/develop/fixLetters.sh
 		printf '\nalias ll="clear && pwd && ls -la"' >> /$WDL/Documents/.bash_aliases
 		
 		echo "Git Bash configuration complete.  Next git-bash execution will use the new HOME of /$WDL/Documents"
@@ -124,7 +128,7 @@ function BUILD {
 		testPath "/$WDL/xampp"
 		mkdir -p "/$WDL/Documents/Projects/public_html"
 		testPath "/$WDL/Documents/Projects/public_html"
-		curl -L -o "$WTEMP/xampp.paf.exe" https://downloads.sourceforge.net/portableapps/XAMPP_1.6.paf.exe?download
+		curl -L -o "$WTEMP/xampp.paf.exe" https://downloads.sourceforge.net/portableapps/XAMPP_1.7.paf.exe?download
 		curl -L -o "$WTEMP/xampp-7.2.11.0.zip" https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.2.11/xampp-portable-win32-7.2.11-0-VC15.zip/download
 		unzip -o "$WTEMP/xampp-7.2.11.0.zip" -d "/$WDL/"
 		curl -L -o "/$WDL/xampp/php/ext/php_xdebug-2.6.1-7.2-vc15.dll" http://xdebug.org/files/php_xdebug-2.6.1-7.2-vc15.dll
@@ -132,7 +136,7 @@ function BUILD {
 		sed -i 's;/xampp/htdocs;/Documents/Projects/public_html;g' /$WDL/xampp/apache/conf/httpd.conf
 		echo "Running XAMPP Launcher Installer"
 		$WTEMP/xampp.paf.exe
-		printf "\nPATH=\"/$WDL/xampp/bin:/$WDL/xampp/php:"'$PATH"' >> /$WDL/Documents/.bash_profile
+		printf "\nPATH=\"/"'$LASTDRIVE'"/xampp/bin:/"'$LASTDRIVE'"/xampp/php:/"'$LASTDRIVE'"/xampp/mysql/bin:"'$PATH"' >> /$WDL/Documents/.bash_profile
     fi
     
     if [[ ${choices[2]} ]]; then
@@ -175,7 +179,7 @@ function BUILD {
 		mv $WTEMP/node-v8.11.2-win-x64/* $PA/NodeJSPortable/App/
     
 
-		printf "\nPATH=\"/$WDL/PortableApps/NodeJSPortable/App/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
+		printf "\nPATH=\"/"'$LASTDRIVE'"/PortableApps/NodeJSPortable/App/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
     
     if [[ ${choices[5]} ]]; then
@@ -190,7 +194,7 @@ function BUILD {
 		$PA/7-ZipPortable/App/7-Zip64/7zG.exe x $WTEMP/ruby/ruby-2.3.3.7z
 		mv $WTEMP/ruby/ruby-2.3.3-x64-mingw32 /$WDL/xampp/ruby
 		/$WDL/xampp/ruby/bin/gem install bundler
-		printf "\nPATH=\"/$WDL/xampp/ruby/bin/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
+		printf "\nPATH=\"/"'$LASTDRIVE'"/xampp/ruby/bin/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
     
     if [[ ${choices[6]} ]]; then
@@ -204,6 +208,7 @@ function BUILD {
 		unzip -o "$WTEMP/netbeans.zip" -d "$PA/NetBeansPortable"
 		printf "\nalias netbeans=\"/$WDL/PortableApps/NetBeansPortable/NetBeansPHPPortable.exe&\"" >> /$WDL/Documents/.bash_aliases
     fi
+		
     if [[ ${choices[7]} ]]; then
 		# Microsoft VSCode
 		###################################
