@@ -34,9 +34,6 @@ function initEnv {
 	testPath $PA
 	# 7-Zip needed for Ruby extraction
   testPath $PA/7-ZipPortable
-  # Java needed for Netbeans
-	testPath $PA/CommonFiles/Java
-	testPath $PA/CommonFiles/Java64
 	testPath /tmp
 	mkdir -p $WTEMP
 	testPath "$WTEMP"
@@ -86,7 +83,7 @@ options[2]="Composer (Global)"
 options[3]="PHP Code Sniffer"
 options[4]="NodeJS v8.11.2"
 options[5]="Ruby v2.3.3"
-options[6]="NetBeansPHP v8.1"
+options[6]="NetBeansPHP v8.1 (w/ JRE 8)"
 options[7]="Microsoft VSCode"
 setRequiredOptions
 
@@ -194,6 +191,13 @@ function BUILD {
     if [[ ${choices[6]} ]]; then
 		# NetBeans Portable
 		###################################
+		echo "NetBeans Dependencies: Java Portable"
+		cd $WTEMP/
+		curl -L -o jPortable_online.paf.exe https://download3.portableapps.com/portableapps/Java/jPortable_8_Update_181_online.paf.exe
+		curl -L -o jPortable64_online.paf.exe https://download3.portableapps.com/portableapps/Java64/jPortable64_8_Update_181_online.paf.exe
+		$WTEMP/jPortable_online.paf.exe
+		$WTEMP/jPortable64_online.paf.exe
+
 		echo "NetBeans"
 		cd $WTEMP/
 		mkdir $PA/NetBeansPortable
