@@ -79,9 +79,9 @@ initEnv
 # Menu options
 options[0]="Git Portable Config"
 options[1]="XAMPP v7.1.18"
-options[2]="Composer (Global)"
+options[2]="Composer"
 options[3]="PHP Code Sniffer"
-options[4]="NodeJS v8.11.2"
+options[4]="NodeJS v10.15.3"
 options[5]="Ruby v2.3.3"
 options[6]="NetBeansPHP v8.1 (w/ JRE 8)"
 options[7]="Microsoft VSCode"
@@ -161,13 +161,13 @@ function BUILD {
 		curl -L -o "$WTEMP/nodeJSPortable-5-12-0_online.paf.exe" https://github.com/garethflowers/nodejs-portable/releases/download/5.12.0/NodeJSPortable_5.12.0_online.paf.exe
 		echo "Running NodeJS Installer"
 		$WTEMP/nodeJSPortable-5-12-0_online.paf.exe
-		echo "Upgrading NodeJS 5.12 -> 8.11.2"
-		curl -L -o "$WTEMP/node-v8.11.2-win-x64.zip" https://nodejs.org/dist/v8.11.2/node-v8.11.2-win-x64.zip
-		unzip -oq "$WTEMP/node-v8.11.2-win-x64.zip" -d $WTEMP
+		echo "Upgrading NodeJS 5.12 -> 10.15.3"
+		curl -L -o "$WTEMP/node-v10.15.3-win-x64.zip" https://nodejs.org/dist/v10.15.3/node-v10.15.3-win-x64.zip
+		unzip -oq "$WTEMP/node-10.15.3-win-x64.zip" -d $WTEMP
 		rm $PA/NodeJSPortable/App/node.exe
 		rm -rf $PA/NodeJSPortable/App/node_modules
-		mv $WTEMP/node-v8.11.2-win-x64/node_modules $PA/NodeJSPortable/App/
-		mv $WTEMP/node-v8.11.2-win-x64/* $PA/NodeJSPortable/App/
+		mv $WTEMP/node-v10.15.3-win-x64/node_modules $PA/NodeJSPortable/App/
+		mv $WTEMP/node-v10.15.3-win-x64/* $PA/NodeJSPortable/App/
     
 
 		printf "\nPATH=\"/"'$LASTDRIVE'"/PortableApps/NodeJSPortable/App/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
