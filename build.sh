@@ -100,7 +100,7 @@ function BUILD {
 				
 		# Bash aliases setup
 		###################################
-		printf "\nif [ -f ~/fixLetters.sh ]; then\n\t. ~/fixLetters.sh\nfi" >> /$WDL/Documents/.bash_profile
+		printf "\nif [ -f ~/fixLetters.sh ]; then\n\t~/fixLetters.sh\nfi" >> /$WDL/Documents/.bash_profile
 		printf "\nif [ -f ~/.bash_aliases ]; then\n\t. ~/.bash_aliases\nfi" >> /$WDL/Documents/.bash_profile
 		printf "\nsource ~/.lastDriveLetter\n" >> /$WDL/Documents/.bash_profile
 		printf "LASTDRIVE=$WDL" > /$WDL/Documents/.lastDriveLetter
@@ -244,4 +244,4 @@ BUILD
 CLEANUP
 
 echo "===================================================="
-echo "Close this window and open updateGitPortable.bat from Windows explorer."
+echo "Close this window and open GitPortable from the PortableApps menu."
