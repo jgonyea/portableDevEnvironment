@@ -13,7 +13,6 @@ The following are installed and configured for running off a usb drive:
 * Ruby
 * Netbeans
 * Microsoft VS Code
-* Papercut SMTP server emulator (see notes below about running Papercut)
 
 ## Prerequisites
 
