@@ -6,7 +6,7 @@ Generates a portable web dev environment for the PortableApps Suite.
 
 The following are installed and configured for running off a usb drive:
 
-* XAMPP (with php 7.1 and xdebug)
+* XAMPP (with php 7.2 and xdebug)
 * Composer
 * PHPCS
 * NodeJS
@@ -20,9 +20,7 @@ The following are installed and configured for running off a usb drive:
 * [Git Portable](https://github.com/sheabunge/GitPortable)
   * Used to run this build script and pass PATH environment variables to apps
 * [7-Zip Portable](https://portableapps.com/apps/utilities/7-zip_portable)
-  * Used to extract Ruby 7z file
-* [Java and Java64 Portable](https://portableapps.com/apps/utilities/java_portable)
-  * Used to run Netbeans and other java files
+  * Used to extract 7z files used in this build script
 
 ## Recommended, but not required
 

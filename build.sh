@@ -78,7 +78,7 @@ initEnv
 
 # Menu options
 options[0]="Git Portable Config"
-options[1]="XAMPP v7.1.18"
+options[1]="XAMPP v7.2.11"
 options[2]="Composer"
 options[3]="PHP Code Sniffer"
 options[4]="NodeJS v10.15.3"
