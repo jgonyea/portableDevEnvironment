@@ -15,6 +15,26 @@ function testPath {
 
 }
 
+# Checks current Git Version
+function testGit {
+	gitVer=$(git --version | awk '{print $3}' | cut -c1)
+	gitSubVer=$(git --version | awk '{print $3}' | cut -c3-4)
+
+	# String to int conversions
+	gitVer=$(($gitVer+0))
+	gitSubVer=$(($gitSubVer+0))
+
+	# Targets git versions less than 2.20.x
+	if [ $gitVer -eq 2 ] && [ "$gitSubVer" -lt 21 ]; then
+		echo "Old version of GitPortable detected, and will now update."
+		read -p "After the update completes, please re-run this build script.  Press any key to continue."
+		curl -L -o GitPortable_2.20.1.1_online.paf.exe https://github.com/jgonyea/GitPortable/releases/download/v2.20.1.1_online/GitPortable_2.20.1.1_for_Windows_online.paf.exe
+		cmd "/C GitPortable_2.20.1.1_online.paf.exe"
+		exit
+	fi;
+	echo "GitPortable appears up to date."
+}
+
 # Function to confirm environment prerequisites.
 function initEnv {
 	echo "Checking build environment"
@@ -30,17 +50,22 @@ function initEnv {
 
 
 	# Check prereq's
+	testGit
 	testPath /$WDL/Documents
 	testPath $PA
-	# 7-Zip needed for Ruby extraction
   testPath $PA/7-ZipPortable
 	testPath /tmp
 	mkdir -p $WTEMP
 	testPath "$WTEMP"
 	mkdir -p /$WDL/Documents/Projects
 	testPath /$WDL/Documents/Projects
-	echo "All preq's found!  Beginning build process."
-	sleep 3
+	echo "All preq's found!  Beginning build process in"
+	echo " |- 3..."
+	sleep 1
+	echo " |- 2..."
+	sleep 1
+	echo " |- 1..."
+	sleep 1
 	clear
 }
 
@@ -94,7 +119,7 @@ function BUILD {
     # Git Portable
 		###################################
 		echo "Configure Git Bash"
-    sed -i 's;Git\\cmd\\git-gui.exe;Git\\git-bash.exe;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
+		sed -i 's;Git\\cmd\\git-gui.exe;Git\\git-bash.exe;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;WorkingDirectory=%PAL:DataDir%\\home;WorkingDirectory=%PAL:Drive%\\Documents\\Projects;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;HOME=%PAL:DataDir%\\home;HOME=%PAL:Drive%\\Documents\nCOMPOSER_HOME=%PAL:Drive%\\Documents\\.composer;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 				
