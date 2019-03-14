@@ -25,7 +25,7 @@ function testGit {
 	gitSubVer=$(($gitSubVer+0))
 
 	# Targets git versions less than 2.20.x
-	if [ $gitVer -eq 2 ] && [ "$gitSubVer" -lt 21 ]; then
+	if [ $gitVer -eq 2 ] && [ "$gitSubVer" -lt 20 ]; then
 		echo "Old version of GitPortable detected, and will now update."
 		read -p "After the update completes, please re-run this build script.  Press any key to continue."
 		curl -L -o GitPortable_2.20.1.1_online.paf.exe https://github.com/jgonyea/GitPortable/releases/download/v2.20.1.1_online/GitPortable_2.20.1.1_for_Windows_online.paf.exe
