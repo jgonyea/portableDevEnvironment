@@ -17,7 +17,7 @@ The following are installed and configured for running off a usb drive:
 ## Prerequisites
 
 * [PA Suite](https://portableapps.com/download)
-* [Git Portable](https://github.com/sheabunge/GitPortable)
+* [Git Portable](https://github.com/jgonyea/GitPortable/releases/download/v2.20.1.1_online/GitPortable_2.20.1.1_for_Windows_online.paf.exe)
   * Used to run this build script and pass PATH environment variables to apps
 * [7-Zip Portable](https://portableapps.com/apps/utilities/7-zip_portable)
   * Used to extract 7z files used in this build script
@@ -47,5 +47,5 @@ This cloned repository is not needed afterwards, and the folder can be discarded
 
 ## Notes
 
-* On its first run, git-bash may complain about a couple of mkdir permissions.  This can be ignored.  Subsequent launches will not present this error.
-* Opening Netbeans or VSCode from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `netbeans` or `vscode`, and pressing enter.
+* On its first run, git-bash may complain about a couple of mkdir permissions,  which can be ignored.  Subsequent launches will not present them.
+* Opening Netbeans, NodeJS, or VSCode from the PA menu instead of the git bash window may cause the PATH variable to not have all the portable information.  You should open it from the git-bash window by typing in `netbeans`, `node`, `npm`, or `vscode` from within GitPortable, and pressing enter.

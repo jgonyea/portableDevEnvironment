@@ -25,7 +25,7 @@ function testGit {
 	gitSubVer=$(($gitSubVer+0))
 
 	# Targets git versions less than 2.20.x
-	if [ $gitVer -eq 2 ] && [ "$gitSubVer" -lt 21 ]; then
+	if [ $gitVer -eq 2 ] && [ "$gitSubVer" -lt 20 ]; then
 		echo "Old version of GitPortable detected, and will now update."
 		read -p "After the update completes, please re-run this build script.  Press any key to continue."
 		curl -L -o GitPortable_2.20.1.1_online.paf.exe https://github.com/jgonyea/GitPortable/releases/download/v2.20.1.1_online/GitPortable_2.20.1.1_for_Windows_online.paf.exe
@@ -43,7 +43,7 @@ function initEnv {
   PA="/$WDL/PortableApps"
 	WTEMP="/$WDL/tmp/pa-build"
   BUILD_DIR=$(pwd)
-  
+
 	echo "This will install applications onto the drive $WDL."
 	read -p "Press Ctrl+C to stop now.  Otherwise, press any other key." -n1 -s
 
@@ -122,7 +122,7 @@ function BUILD {
 		sed -i 's;Git\\cmd\\git-gui.exe;Git\\git-bash.exe;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;WorkingDirectory=%PAL:DataDir%\\home;WorkingDirectory=%PAL:Drive%\\Documents\\Projects;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
 		sed -i 's;HOME=%PAL:DataDir%\\home;HOME=%PAL:Drive%\\Documents\nCOMPOSER_HOME=%PAL:Drive%\\Documents\\.composer;' $PA/GitPortable/App/AppInfo/Launcher/GitPortable.ini
-				
+
 		# Bash aliases setup
 		###################################
 		printf "\nif [ -f ~/fixLetters.sh ]; then\n\t~/fixLetters.sh\nfi" >> /$WDL/Documents/.bash_profile
@@ -131,10 +131,10 @@ function BUILD {
 		printf "LASTDRIVE=$WDL" > /$WDL/Documents/.lastDriveLetter
 		curl -L -o /$WDL/Documents/fixLetters.sh https://raw.githubusercontent.com/jgonyea/portableDevEnvironment/develop/fixLetters.sh
 		printf '\nalias ll="clear && pwd && ls -la"' >> /$WDL/Documents/.bash_aliases
-		
+
 		echo "Git Bash configuration complete.  Next git-bash execution will use the new HOME of /$WDL/Documents"
     fi
-    
+
     if [[ ${choices[1]} ]]; then
 		# XAMPP Launcher Portable
 		###################################
@@ -154,7 +154,7 @@ function BUILD {
 		$WTEMP/xampp.paf.exe
 		printf "\nPATH=\"/"'$LASTDRIVE'"/xampp/bin:/"'$LASTDRIVE'"/xampp/php:/"'$LASTDRIVE'"/xampp/mysql/bin:"'$PATH"' >> /$WDL/Documents/.bash_profile
     fi
-    
+
     if [[ ${choices[2]} ]]; then
 		## Composer
 		###################################
@@ -166,7 +166,7 @@ function BUILD {
 		testPath "/$WDL/xampp/bin"
 		curl -sS https://getcomposer.org/installer | "/$WDL/xampp/php/php" -- --install-dir="/$WDL/xampp/bin" --filename=composer
     fi
-    
+
     if [[ ${choices[3]} ]]; then
 		## Codesniffer
 		###################################
@@ -177,27 +177,19 @@ function BUILD {
 		printf "\nalias phpcs=\"/$WDL/xampp/bin/phpcs --colors\"" >> /$WDL/Documents/.bash_aliases
 		printf "\nalias phpcbf=\"/$WDL/xampp/bin/phpcbf --colors\"" >> /$WDL/Documents/.bash_aliases
     fi
-    
+
     if [[ ${choices[4]} ]]; then
 		# NodeJS Portable
 		###################################
 		echo "NodeJS"
 		cd $WTEMP/
-		curl -L -o "$WTEMP/nodeJSPortable-5-12-0_online.paf.exe" https://github.com/garethflowers/nodejs-portable/releases/download/5.12.0/NodeJSPortable_5.12.0_online.paf.exe
+		curl -L -o "$WTEMP/nodeJSPortable-10.15.3_online.paf.exe" https://github.com/jgonyea/nodejs-portable/releases/download/10.15.3/NodeJSPortable_10.15.3_online.paf.exe
 		echo "Running NodeJS Installer"
-		$WTEMP/nodeJSPortable-5-12-0_online.paf.exe
-		echo "Upgrading NodeJS 5.12 -> 10.15.3"
-		curl -L -o "$WTEMP/node-v10.15.3-win-x64.zip" https://nodejs.org/dist/v10.15.3/node-v10.15.3-win-x64.zip
-		unzip -oq "$WTEMP/node-10.15.3-win-x64.zip" -d $WTEMP
-		rm $PA/NodeJSPortable/App/node.exe
-		rm -rf $PA/NodeJSPortable/App/node_modules
-		mv $WTEMP/node-v10.15.3-win-x64/node_modules $PA/NodeJSPortable/App/
-		mv $WTEMP/node-v10.15.3-win-x64/* $PA/NodeJSPortable/App/
-    
+		$WTEMP/nodeJSPortable-10.15.3_online.paf.exe
 
-		printf "\nPATH=\"/"'$LASTDRIVE'"/PortableApps/NodeJSPortable/App/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
+		printf "\nPATH=\"/$WDL/PortableApps/NodeJSPortable/App/node:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
-    
+
     if [[ ${choices[5]} ]]; then
 		# Ruby
 		###################################
@@ -212,7 +204,7 @@ function BUILD {
 		/$WDL/xampp/ruby/bin/gem install bundler
 		printf "\nPATH=\"/"'$LASTDRIVE'"/xampp/ruby/bin/:"'$PATH\"' >> /$WDL/Documents/.bash_profile
     fi
-    
+
     if [[ ${choices[6]} ]]; then
 		# NetBeans Portable
 		###################################
@@ -231,7 +223,7 @@ function BUILD {
 		unzip -o "$WTEMP/netbeans.zip" -d "$PA/NetBeansPortable"
 		printf "\nalias netbeans=\"/$WDL/PortableApps/NetBeansPortable/NetBeansPHPPortable.exe&\"" >> /$WDL/Documents/.bash_aliases
     fi
-		
+
     if [[ ${choices[7]} ]]; then
 		# Microsoft VSCode
 		###################################
@@ -261,7 +253,7 @@ while MENU && echo "Select optional items to install/ configure.  Starred items 
     else
         ERROR="Invalid option: $SELECTION"
     fi
-	
+
 done
 
 # Perform all selected actions from menu.
